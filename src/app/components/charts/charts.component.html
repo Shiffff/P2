@@ -1,1 +1,9 @@
-<p>{{ (olympics$ | async)?.length }} data loaded</p>
+<ngx-charts-pie-chart
+  [results]="single"
+  [gradient]="gradient"
+  [legend]="showLegend"
+  [labels]="showLabels"
+  [doughnut]="isDoughnut"
+
+  >
+</ngx-charts-pie-chart>
