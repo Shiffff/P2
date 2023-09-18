@@ -10,10 +10,14 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 
 export class ChartsComponent implements OnInit {
-
   public olympics$: Observable<any> = of(null);
-
-  view: any[] = [700, 400];
+  
+  view: any = [700, 400];
+  gradient: boolean = true;
+  showLegend: boolean = true;
+  showLabels: boolean = true;
+  isDoughnut: boolean = false;
+  legendPosition: any = 'below';
 
   public single = [
     {
@@ -34,24 +38,20 @@ export class ChartsComponent implements OnInit {
     }
   ];
 
-  colorScheme = {
+  colorScheme:any = {
     domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
   };
-    gradient: boolean = true;
-    showLegend: boolean = true;
-    showLabels: boolean = true;
-    isDoughnut: boolean = false;
-    legendPosition: string = 'below';
-  
 
-
-
+  onSelect(data:any): void {
+    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+  }
   constructor(private olympicService: OlympicService) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
     console.log(this.olympics$)
   }
+
 }
 
 
