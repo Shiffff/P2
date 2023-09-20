@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
@@ -10,48 +11,45 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
 })
 
 export class ChartsComponent implements OnInit {
+  constructor(private olympicService: OlympicService, private router: Router) {}
   public olympics$: Observable<any> = of(null);
-  
-  view: any = [700, 400];
+  public chartValue: any[] = []
+  public totalCountry: number = 0
+  public totalJoStat : number = 0
+  view: any = [900, 600];
   gradient: boolean = true;
-  showLegend: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
-  legendPosition: any = 'below';
-
-  public single = [
-    {
-      "name": "Germany",
-      "value": 8940000
-    },
-    {
-      "name": "USA",
-      "value": 5000000
-    },
-    {
-      "name": "France",
-      "value": 7200000
-    },
-      {
-      "name": "UK",
-      "value": 6200000
-    }
-  ];
-
-  colorScheme:any = {
-    domain: ['#5AA454', '#A10A28', '#C7B42C', '#AAAAAA']
-  };
 
   onSelect(data:any): void {
-    console.log('Item clicked', JSON.parse(JSON.stringify(data)));
+    this.router.navigateByUrl(`details/${data.extra}`)
   }
-  constructor(private olympicService: OlympicService) {}
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
-    console.log(this.olympics$)
+    this.olympics$.subscribe({
+      next: value => {
+        if (value) {
+          const totalJo: any[] = []
+          console.log(value)
+          this.totalCountry = value.length
+          value.map((item: any) => {
+            let count = 0
+            item.participations.map((itemPart: any) => {
+              totalJo.push(itemPart.year)
+                count = count + itemPart.medalsCount
+            })
+            const finalItem = {"name" : item.country,"value" : count, "extra" : item.id}
+            this.chartValue.push(finalItem)
+            console.log( this.chartValue)
+            let uniqueArr =[...new Set(totalJo)]
+            this.totalJoStat = uniqueArr.length
+          });
+        }
+      },
+      error: err => console.error(err),
+    });
   }
-
 }
 
 

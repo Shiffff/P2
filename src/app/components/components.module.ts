@@ -16,7 +16,7 @@ import { BrowserModule } from '@angular/platform-browser';
     BrowserModule,
   ],
   exports: [
-    ChartsComponent, // Vérifiez que les éléments sont exportés ici
+    ChartsComponent, 
   ],
 })
 export class ComponentsModule { }

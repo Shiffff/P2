@@ -1,10 +1,13 @@
-<ngx-charts-pie-chart
+<div class="statsContainer">
+  <div class="totalJo stats">Number of JOs <span>  {{ totalJoStat }} </span></div>
+  <div class="totalCountry stats">Number of countries <span> {{ totalCountry }} </span></div>
+</div>
+
+
+<ngx-charts-pie-chart *ngIf="chartValue.length > 1"
   [view]="view"
-  [scheme]="colorScheme"
-  [results]="single"
+  [results]="chartValue"
   [gradient]="gradient"
-  [legend]="showLegend"
-  [legendPosition]="legendPosition"
   [labels]="showLabels"
   [doughnut]="isDoughnut"
   (select)="onSelect($event)"
