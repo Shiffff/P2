@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, of } from 'rxjs';
+import { Observable, Subject, Subscription, of } from 'rxjs';
+import { olympic } from 'src/app/core/models/Olympic';
+import { participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 @Component({
@@ -8,12 +10,13 @@ import { OlympicService } from 'src/app/core/services/olympic.service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
+  public subscription!: Subscription
   public olympics$: Observable<any> = of(null);
   public chartValue: any[] = []
   public totalCountry: number = 0
   public totalJoStat : number = 0
-  view: any = [900, 600];
+  view: [number, number] = [900, 600];
   gradient: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
@@ -22,24 +25,22 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$ = this.olympicService.getOlympics();
-    this.olympics$.subscribe({
+    this.subscription = this.olympics$.subscribe({  
       next: value => {
         if (value) {
-          const totalJo: any[] = []
-          console.log(value)
+          const totalJo: number[] = []
           this.totalCountry = value.length
-          value.map((item: any) => {
+          value.map((item: olympic) => {
             let count = 0
-            item.participations.map((itemPart: any) => {
+            item.participations.map((itemPart: participation) => {
               totalJo.push(itemPart.year)
                 count = count + itemPart.medalsCount
             })
             const finalItem = {"name" : item.country,"value" : count, "extra" : item.id}
             this.chartValue.push(finalItem)
-            console.log( this.chartValue)
             let uniqueArr =[...new Set(totalJo)]
             this.totalJoStat = uniqueArr.length
+            console.log(finalItem)
           });
         }
       },
@@ -47,7 +48,12 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  onSelect(data:any): void {
-    this.router.navigateByUrl(`details/${data.extra}`)
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe()
+
+  }
+
+  onSelect(id:number): void {
+    this.router.navigateByUrl(`details/${id}`)
   }
 }
