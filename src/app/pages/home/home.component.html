@@ -1,6 +1,16 @@
 <div class="homePage">
     <h2>Medals per Contry</h2>
-    <div class="chartsContainer">
-        <app-charts></app-charts>
+    <div class="statsContainer">
+      <div class="totalJo stats">Number of JOs <span>  {{ totalJoStat }} </span></div>
+      <div class="totalCountry stats">Number of countries <span> {{ totalCountry }} </span></div>
     </div>
+    <ngx-charts-pie-chart *ngIf="chartValue.length > 1"
+      [view]="view"
+      [results]="chartValue"
+      [gradient]="gradient"
+      [labels]="showLabels"
+      [doughnut]="isDoughnut"
+      (select)="onSelect($event)"
+      >
+    </ngx-charts-pie-chart>
 </div>
