@@ -1,15 +1,15 @@
-nav{
-    position: absolute;
-    top: 0;
-    height: 100px;
-    background-color: lightseagreen;
-    color: white;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    align-items: center;
-    z-index: 100;
-    font-weight: 800;
-    font-size: 40px;
-    
+nav {
+  position: absolute;
+  top: 0;
+  height: 100px;
+  background-color: lightseagreen;
+  color: white;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  align-items: center;
+  z-index: 100;
+  font-weight: 800;
+  font-size: 40px;
+  cursor: pointer;
 }

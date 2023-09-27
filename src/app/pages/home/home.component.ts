@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable, Subject, Subscription, of } from 'rxjs';
+import { Observable, Subscription, of } from 'rxjs';
 import { olympic } from 'src/app/core/models/Olympic';
 import { participation } from 'src/app/core/models/Participation';
 import { OlympicService } from 'src/app/core/services/olympic.service';
@@ -16,10 +16,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   public chartValue: any[] = []
   public totalCountry: number = 0
   public totalJoStat : number = 0
-  view: [number, number] = [900, 600];
+  public maxLabelLength: number = 20
   gradient: boolean = true;
   showLabels: boolean = true;
   isDoughnut: boolean = false;
+  
 
   constructor(private olympicService: OlympicService, private router: Router) {}
 
@@ -40,7 +41,6 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.chartValue.push(finalItem)
             let uniqueArr =[...new Set(totalJo)]
             this.totalJoStat = uniqueArr.length
-            console.log(finalItem)
           });
         }
       },

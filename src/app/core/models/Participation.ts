@@ -8,7 +8,7 @@ export interface participation {
 
 export interface participationItemChart {
         value: number,
-        name: number
+        name: string
 }
 export interface participationItemChartRdy {
         name: string,

@@ -4,13 +4,24 @@
     <div class="totalJo stats">Number of JOs <span>  {{ totalJoStat }} </span></div>
     <div class="totalCountry stats">Number of countries <span> {{ totalCountry }} </span></div>
   </div>
-  <ngx-charts-pie-chart *ngIf="chartValue.length > 1"
-    [view]="view"
-    [results]="chartValue"
-    [gradient]="gradient"
-    [labels]="showLabels"
-    [doughnut]="isDoughnut"
-    (select)="onSelect($event.extra)"
-    >
-  </ngx-charts-pie-chart>
+  <div class="ngxChartContainer">
+    <ngx-charts-pie-chart *ngIf="chartValue.length > 1"
+      [results]="chartValue"
+      [gradient]="gradient"
+      [labels]="showLabels"
+      [doughnut]="isDoughnut"
+      (select)="onSelect($event.extra)"
+      [maxLabelLength]="maxLabelLength"
+      
+      >
+      <ng-template #tooltipTemplate let-model="model" class="toolTypeModel">
+        <p class="toolTipName">{{model.name}}</p>
+        <p class="tooltypeValue">
+          <img src="/assets/icon/medal.svg" alt="medal">{{ model.value }}
+        </p>
+
+      </ng-template>
+    </ngx-charts-pie-chart>
+    
+  </div>
 </div>

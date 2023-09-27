@@ -18,7 +18,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public totalMedal: number = 0
   public totalAthleteCount: number = 0
   public chartArray: participationItemChartRdy[] = []
-  public view: [number, number] = [700, 300];
   public subscription!: Subscription
 
 
@@ -35,6 +34,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   showXAxisLabel: boolean = true;
   xAxisLabel: string = 'Dates';
 
+
   ngOnInit(): void {   
     const countryId = +this.route.snapshot.params['id'];
     this.olympic$ = this.olympicService.getOlympicsById(countryId) as Observable<olympic>;
@@ -50,7 +50,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
           value.participations.map((participation :participation) => {
             let participationItem = {
               "value": participation.medalsCount,
-              "name": participation.year
+              "name": participation.year.toString()
             }
             chartArray.push(participationItem)
             if (athleteCount > 0){
@@ -68,6 +68,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
           this.totalAthleteCount = athleteCount
           this.chartArray.push({"name" : value.country, "series" : chartArray} )
         }}})
+        console.log(this.chartArray)
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
