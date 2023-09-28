@@ -31,13 +31,15 @@
     align-items: center;
     font-weight: 300;
     width: 200px;
+    text-align: center;
     span {
       font-weight: 600;
+      margin-top: 10px;
     }
   }
 }
 .chartContainer {
-  margin-top: 100px;
+  margin-top: 50px;
   display: flex;
   justify-content: center;
 }

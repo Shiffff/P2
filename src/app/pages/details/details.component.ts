@@ -38,10 +38,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {   
     const countryId = +this.route.snapshot.params['id'];
     this.olympic$ = this.olympicService.getOlympicsById(countryId) as Observable<olympic>;
-
     this.subscription = this.olympic$.subscribe({
       next: value => {
-        if (value) {
+        if (value.country) {
           let medalCount :number = 0 
           let athleteCount :number = 0
           this.nameOfCountry= value.country
@@ -67,8 +66,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
           this.totalMedal = medalCount
           this.totalAthleteCount = athleteCount
           this.chartArray.push({"name" : value.country, "series" : chartArray} )
-        }}})
-        console.log(this.chartArray)
+        }else{
+          this.router.navigateByUrl('error')
+        }
+      }})
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe()
