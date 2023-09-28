@@ -14,7 +14,7 @@
       [maxLabelLength]="maxLabelLength"
       
       >
-      <ng-template #tooltipTemplate let-model="model" class="toolTypeModel">
+      <ng-template #tooltipTemplate let-model="model" >
         <p class="toolTipName">{{model.name}}</p>
         <p class="tooltypeValue">
           <img src="/assets/icon/medal.svg" alt="medal">{{ model.value }}
