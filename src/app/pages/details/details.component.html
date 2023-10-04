@@ -1,23 +1,18 @@
-<div class="topPart">
-  <div class="countryName"> {{nameOfCountry}} </div>
-  <div class="stats">
-    <div class="totalParticipations statsItem">number of entries <span>{{ totalParticipations }} </span> </div>
-    <div class="totalMedal statsItem">Total number medals <span>{{totalMedal}} </span></div>
-    <div class="totalAthlete statsItem">Total number of athletes <span>{{totalAthleteCount}}</span> </div>
-  
+<div class="detailsPage" *ngIf="olympic$ | async as olympic">
+  <div class="topPart">
+    <div class="countryName"> {{olympic.nameOfCountry}} </div>
+    <div class="stats">
+      <div class="totalParticipations statsItem">number of entries <span>{{ olympic.totalParticipations }} </span> </div>
+      <div class="totalMedal statsItem">Total number medals <span>{{olympic.medalCount}} </span></div>
+      <div class="totalAthlete statsItem">Total number of athletes <span>{{olympic.athleteCount}}</span> </div>
+    </div>
   </div>
-</div>
-<div class="arrowForBack" (click)="goBack()">
-  <
-</div>
-<div class="chartContainer">
-  <ngx-charts-line-chart *ngIf="chartArray[0]"
-
-  [showYAxisLabel]="showYAxisLabel"
-  [xAxis]="xAxis"
-  [yAxis]="yAxis"
-  [xAxisLabel]="xAxisLabel"
-  [results]="chartArray"
-  >
-</ngx-charts-line-chart>
-</div>
+  <div class="arrowForBack" (click)="goBack()">
+    < 
+  </div>
+      <div class="chartContainer">
+        <ngx-charts-line-chart [showYAxisLabel]="true" [xAxis]="true" [yAxis]="true"
+          [results]="olympic.chartArrayFinal">
+        </ngx-charts-line-chart>
+      </div>
+  </div> 

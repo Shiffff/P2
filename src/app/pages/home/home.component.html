@@ -1,18 +1,17 @@
-<div class="homePage">
+<div class="homePage" *ngIf="olympics$ | async as olympics">
   <h2>Medals per Contry</h2>
   <div class="statsContainer">
-    <div class="totalJo stats">Number of JOs <span>  {{ totalJoStat }} </span></div>
-    <div class="totalCountry stats">Number of countries <span> {{ totalCountry }} </span></div>
+    <div class="totalJo stats">Number of JOs <span>  {{ olympics.totalJoStat }} </span></div>
+    <div class="totalCountry stats">Number of countries <span> {{ olympics.totalCountry }} </span></div>
   </div>
   <div class="ngxChartContainer">
-    <ngx-charts-pie-chart *ngIf="chartValue.length > 1"
-      [results]="chartValue"
-      [gradient]="gradient"
-      [labels]="showLabels"
-      [doughnut]="isDoughnut"
+    <ngx-charts-pie-chart
+      [results]="olympics.chartValue"
+      [gradient]="true"
+      [labels]="true"
+      [doughnut]="false"
       (select)="onSelect($event.extra)"
-      [maxLabelLength]="maxLabelLength"
-      
+      [maxLabelLength]="20"
       >
       <ng-template #tooltipTemplate let-model="model" >
         <p class="toolTipName">{{model.name}}</p>

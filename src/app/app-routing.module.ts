@@ -14,6 +14,10 @@ const routes: Routes = [
     component: DetailsComponent,
   },
   {
+    path: '404', // wildcard
+    component: NotFoundComponent,
+  },
+  {
     path: '**', // wildcard
     component: NotFoundComponent,
   },
