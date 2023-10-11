@@ -1,6 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable, map } from 'rxjs';
+import { participation } from 'src/app/core/models/Participation';
+import { chartArray, valueTemplate } from 'src/app/core/models/chartArrayFinal';
 import { OlympicService } from 'src/app/core/services/olympic.service';
 
 @Component({
@@ -12,7 +14,7 @@ export class DetailsComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private olympicService = inject(OlympicService);
   private router = inject(Router);
-  public olympic$?: Observable<any>;
+  public olympic$?: Observable<valueTemplate | undefined>;
 
   ngOnInit(): void {
     let countryId = +this.route.snapshot.params['id'];
@@ -24,13 +26,14 @@ export class DetailsComponent implements OnInit {
           let nameOfCountry = value.country;
           let medalCount: number = 0;
           let athleteCount: number = 0;
-          let chartArray: any[] = [];
+          let chartArray: chartArray[] = [];
           let chartArrayFinal = [];
           let totalParticipations = value.participations.length;
 
           // Caclul
 
-          value.participations.map((participation: any) => {
+          value.participations.map((participation: participation) => {
+            console.log();
             let participationItem = {
               value: participation.medalsCount,
               name: participation.year.toString(),
@@ -48,11 +51,9 @@ export class DetailsComponent implements OnInit {
             athleteCount,
             chartArrayFinal,
           };
-        } else if (value === undefined) {
+        } else {
           this.router.navigateByUrl('/404');
-        }
-        {
-          return [];
+          return undefined;
         }
       })
     );

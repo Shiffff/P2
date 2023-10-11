@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError, filter, map, tap } from 'rxjs/operators';
 import { olympic } from '../models/Olympic';
 
 @Injectable({
@@ -9,7 +9,7 @@ import { olympic } from '../models/Olympic';
 })
 export class OlympicService {
   private olympicUrl = './assets/mock/olympic.json';
-  private olympics$: BehaviorSubject<any> = new BehaviorSubject<any>(undefined);
+  private olympics$ = new BehaviorSubject<olympic[]>([]);
   constructor(private http: HttpClient) {}
 
   loadInitialData() {
@@ -19,7 +19,7 @@ export class OlympicService {
         // TODO: improve error handling
         console.error(error);
         // can be useful to end loading state and let the user know something went wrong
-        this.olympics$.next(null);
+        this.olympics$.next([]);
         return caught;
       })
     );
@@ -29,11 +29,12 @@ export class OlympicService {
     return this.olympics$.asObservable();
   }
 
-  getOlympicsById(id: number): Observable<olympic> {
+  getOlympicsById(id: number): Observable<olympic | undefined> {
     return this.getOlympics().pipe(
-      map((olympics: any[]) =>
-        olympics ? olympics.find((olympic) => olympic.id === id) : null
-      )
+      filter((value) => value.length > 0),
+      map((olympics) => {
+        return olympics.find((olympic) => olympic.id === id);
+      })
     );
   }
 }
